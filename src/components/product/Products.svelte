@@ -15,15 +15,11 @@ export let product;
 .card{
     font-size: small;
     text-align: center;
- 
- 
     margin-top: 150px;
     width: 450px;
-
-    border-radius: 20px;
-    box-shadow: black;
+    border-radius: 30px;
+    box-shadow: black solid;
     cursor: pointer;
-    overflow: hidden;
     background: white;
     padding: 10px;
 }
