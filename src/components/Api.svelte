@@ -1,5 +1,5 @@
 <script>
-  import ProductDetails from "./product/ProductDetails.svelte";
+  import ProductDetails from "./product/Products.svelte";
 
     let products = [];
     async function fetchProducts() {
