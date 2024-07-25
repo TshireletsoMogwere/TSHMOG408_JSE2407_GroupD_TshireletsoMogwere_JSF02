@@ -8,6 +8,8 @@ import Header from "./components/Header.svelte";
 <Api />
 <Header />
 </main>
+
 <style>
+
  
 </style>

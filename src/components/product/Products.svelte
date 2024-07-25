@@ -7,21 +7,25 @@ export let product;
     <h2>{product.title}</h2>
     <h2>${product.price}</h2>
     <h2>{product.category}</h2>
-
 </div>
 
+
 <style>
+    
 .card{
     font-size: small;
+    text-align: center;
+ 
+ 
     margin-top: 150px;
-    width: 350px;
-    border: 1px solid rgb(232, 190, 214);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(142, 21, 130, 0.2);
+    width: 450px;
+
+    border-radius: 20px;
+    box-shadow: black;
     cursor: pointer;
     overflow: hidden;
     background: white;
-    padding: 50px;
+    padding: 10px;
 }
 
 .card:hover {
@@ -30,13 +34,13 @@ export let product;
 }
 
 .product-image{
-    width: 60%;
-    height: 60%;
-    position: relative;
-    transition: transform 0.3s ease-in-out;
+  display: block;
+  margin: 0 auto;
+  width: 60%;
+  height: 60%;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
 }
-
-
 </style>
     
 

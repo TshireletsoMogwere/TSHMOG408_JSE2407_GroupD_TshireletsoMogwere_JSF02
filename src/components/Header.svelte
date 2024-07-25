@@ -2,13 +2,14 @@
     <span>E-commerce store</span>
 </header>
 
+
 <style>
     header {
        font-weight: bolder;
        font-size: xx-large;
        text-align: center;
-       background-color: rgb(241, 213, 232);
-       color: rgba(160, 2, 86, 0.734);
+       background-color: white;
+       color: black;
        margin: 0;
        padding: 20px;
        width: 100%;
