@@ -1,5 +1,5 @@
 <script>
-    export let count = 1; // Number of skeleton cards to display
+    export let count = 1;
   </script>
   
   <div class="skeleton-container">

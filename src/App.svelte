@@ -1,14 +1,17 @@
 <script>
-import Api from "./components/Api.svelte";
+
+ import Header from "./components/Header.svelte";
+ import Home from "./components/Home.svelte";
 
 </script>
 
-<main>
-<Api />
+<Header />
 
-</main>
+
+  <Home />
+
+
 
 <style>
-
  
 </style>

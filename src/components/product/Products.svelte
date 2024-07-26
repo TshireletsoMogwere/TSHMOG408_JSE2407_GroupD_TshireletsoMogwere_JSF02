@@ -15,13 +15,12 @@ export let product;
 .card{
     font-size: small;
     text-align: center;
-    margin-top: 150px;
-    width: 450px;
-    border-radius: 30px;
-    box-shadow: black solid;
+    color: rgb(50, 47, 47);
+    margin-top: 200px;
+    border:  rgb(33, 32, 32);
+    border-radius: 10%;
+    background-color: white;
     cursor: pointer;
-    background: white;
-    padding: 10px;
 }
 
 .card:hover {
@@ -36,6 +35,7 @@ export let product;
   height: 60%;
   position: relative;
   transition: transform 0.3s ease-in-out;
+  
 }
 </style>
     
