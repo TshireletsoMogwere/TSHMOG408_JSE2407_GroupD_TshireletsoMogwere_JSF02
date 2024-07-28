@@ -11,16 +11,23 @@ export let product;
 
 
 <style>
-    
+  
 .card{
+    aspect-ratio: 1;
+    position: relative;
+    top: 50%;
     font-size: small;
     text-align: center;
-    color: rgb(50, 47, 47);
-    margin-top: 200px;
+    color: rgb(101, 94, 94);
+    text-decoration-style: none;
+    margin-top: 20px;
+    padding: 20px;
     border:  rgb(33, 32, 32);
     border-radius: 10%;
-    background-color: white;
+    background-color: rgb(252, 251, 251);
     cursor: pointer;
+    width: 300px;
+   
 }
 
 .card:hover {
@@ -32,11 +39,13 @@ export let product;
   display: block;
   margin: 0 auto;
   width: 60%;
-  height: 60%;
+  height: 65%;
   position: relative;
   transition: transform 0.3s ease-in-out;
   
 }
+
+
 </style>
     
 

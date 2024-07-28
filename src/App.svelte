@@ -1,17 +1,11 @@
 <script>
-
- import Header from "./components/Header.svelte";
- import Home from "./components/Home.svelte";
-
+  import { Router, Route } from 'svelte-routing';
+  import Home from './components/Home.svelte';
+  import ProductDetails from './components/ProductDetails.svelte';
 </script>
 
-<Header />
+<Router>
+  <Route path="/" component={Home} />
+  <Route path="/product/:id" component={ProductDetails} />
+</Router>
 
-
-  <Home />
-
-
-
-<style>
- 
-</style>
