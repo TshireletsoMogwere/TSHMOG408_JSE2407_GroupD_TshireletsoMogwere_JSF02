@@ -5,6 +5,9 @@
   
     const dispatch = createEventDispatcher();
   
+    /**
+   * @param {any} category
+   */
     function filterByCategory(category) {
       dispatch('categoryChange', category);
     }

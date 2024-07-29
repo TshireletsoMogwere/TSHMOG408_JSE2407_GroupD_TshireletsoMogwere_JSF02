@@ -3,7 +3,7 @@
   import { Link } from 'svelte-routing';
   import Skeleton from "./Skeleton.svelte";
   import { onMount, onDestroy } from 'svelte';
-  import Product from "../components/product/Products.svelte"; // Correct import for the component
+  import Product from "../components/product/Products.svelte";
   import { filtersStore } from '../filterStore';
 
   let products = [];
@@ -14,13 +14,19 @@
   let loadingProducts = true;
   let loadingCategories = true;
 
-  // Subscribe to the filters store
+  // Subscribes to the filters store
   const unsubscribe = filtersStore.subscribe(store => {
     selectedCategory = store.selectedCategory;
     sortOrder = store.sortOrder;
-    products = applyFiltersAndSorting(allProducts); // Ensure products are updated
+    products = applyFiltersAndSorting(allProducts); // Ensures products are updated
   });
 
+/**
+ * @async
+ * @function fetchProducts
+ * @returns {Promise<void>}
+ * Fetches products from API and applies filters and sorting
+ */
   async function fetchProducts() {
     try {
       const res = await fetch('https://fakestoreapi.com/products');
@@ -33,6 +39,10 @@
     }
   }
 
+  /**
+   * @async
+   * @function fetchCategories
+   */
   async function fetchCategories() {
     try {
       const res = await fetch('https://fakestoreapi.com/products/categories');
@@ -45,8 +55,13 @@
     }
   }
 
+ 
+  /**
+   * @param {any[]} products - The array of products to be filtered and sorted.
+   * @returns {any[]} - The filtered and sorted prducts array.
+   */
   function applyFiltersAndSorting(products) {
-    let filteredProducts = selectedCategory === 'all' ? products : products.filter(p => p.category === selectedCategory);
+    let filteredProducts = selectedCategory === 'all' ? products : products.filter((/** @type {{ category: string; }} */ p) => p.category === selectedCategory);
     if (sortOrder !== 'default') {
       filteredProducts = [...filteredProducts].sort((a, b) => {
         return sortOrder === 'asc' ? a.price - b.price : b.price - a.price;
@@ -56,7 +71,9 @@
   }
 
   /**
-   * @param {string} order
+   * Updates the sort order and applies filters to the products.
+   * @param {string} order - The new sort order. 
+   * @return {void}
    */
   function sortProducts(order) {
     sortOrder = order;
@@ -65,14 +82,20 @@
   }
 
   /**
-   * @param {string} category
+   * @param {string} category - The new selected category.
+   * @returns {void} 
    */
   function filterByCategory(category) {
     selectedCategory = category;
     filtersStore.update(store => ({ ...store, selectedCategory: category }));
     products = applyFiltersAndSorting(allProducts);
   }
-
+  
+/**
+ *  @param allProducts
+ * @function resetFilters
+ * @returns {void}
+ */
   function resetFilters() {
     selectedCategory = 'all';
     sortOrder = 'default';
@@ -80,6 +103,11 @@
     products = allProducts;
   }
 
+  /**
+   * @function onMount
+   * @async
+   * @returns {Promise<void>}
+  */
   onMount(async () => {
     await fetchProducts();
     await fetchCategories();
@@ -117,7 +145,7 @@
   <div class="product-grid">
     {#each products as product}
       <Link to={`/product/${product.id}`}>
-        <Product {product} /> <!-- Correct component usage -->
+        <Product {product} />
        
       </Link>
       {/each}
