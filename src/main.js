@@ -1,6 +1,6 @@
+// @ts-nocheck
 import { Router } from 'svelte-routing';
 import './app.css'
-// @ts-ignore
 import App from './App.svelte';
 
 const app = new App({

@@ -2,8 +2,9 @@
   import Header from "./Header.svelte";
   import { Link } from 'svelte-routing';
   import Skeleton from "./Skeleton.svelte";
-  import { onMount } from 'svelte';
-  import Products from "./product/Products.svelte";
+  import { onMount, onDestroy } from 'svelte';
+  import Product from "../components/product/Products.svelte"; // Correct import for the component
+  import { filtersStore } from '../filterStore';
 
   let products = [];
   let allProducts = [];
@@ -13,38 +14,54 @@
   let loadingProducts = true;
   let loadingCategories = true;
 
+  // Subscribe to the filters store
+  const unsubscribe = filtersStore.subscribe(store => {
+    selectedCategory = store.selectedCategory;
+    sortOrder = store.sortOrder;
+    products = applyFiltersAndSorting(allProducts); // Ensure products are updated
+  });
+
   async function fetchProducts() {
-    const res = await fetch('https://fakestoreapi.com/products');
-    allProducts = await res.json();
-    products = allProducts;
-    loadingProducts = false;
+    try {
+      const res = await fetch('https://fakestoreapi.com/products');
+      allProducts = await res.json();
+      products = applyFiltersAndSorting(allProducts); // Correctly set the products variable
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      loadingProducts = false;
+    }
   }
 
   async function fetchCategories() {
-    const res = await fetch('https://fakestoreapi.com/products/categories');
-    categories = await res.json();
-    categories.unshift('all');
-    loadingCategories = false;
+    try {
+      const res = await fetch('https://fakestoreapi.com/products/categories');
+      categories = await res.json();
+      categories.unshift('all');
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    } finally {
+      loadingCategories = false;
+    }
+  }
+
+  function applyFiltersAndSorting(products) {
+    let filteredProducts = selectedCategory === 'all' ? products : products.filter(p => p.category === selectedCategory);
+    if (sortOrder !== 'default') {
+      filteredProducts = [...filteredProducts].sort((a, b) => {
+        return sortOrder === 'asc' ? a.price - b.price : b.price - a.price;
+      });
+    }
+    return filteredProducts;
   }
 
   /**
    * @param {string} order
    */
   function sortProducts(order) {
-    if (order === 'default') {
-      products = selectedCategory === 'all' ? allProducts : allProducts.filter(product => product.category === selectedCategory);
-    } else {
-      let sortedProducts = [...products];
-      sortedProducts.sort((a, b) => {
-        if (order === 'asc') {
-          return a.price - b.price;
-        } else if (order === 'desc') {
-          return b.price - a.price;
-        }
-      });
-      products = sortedProducts;
-    }
     sortOrder = order;
+    filtersStore.update(store => ({ ...store, sortOrder: order }));
+    products = applyFiltersAndSorting(allProducts);
   }
 
   /**
@@ -52,17 +69,14 @@
    */
   function filterByCategory(category) {
     selectedCategory = category;
-    if (category === 'all') {
-      products = allProducts;
-    } else {
-      products = allProducts.filter(product => product.category === category);
-    }
-    sortProducts(sortOrder); // Apply sorting after filtering
+    filtersStore.update(store => ({ ...store, selectedCategory: category }));
+    products = applyFiltersAndSorting(allProducts);
   }
 
   function resetFilters() {
     selectedCategory = 'all';
     sortOrder = 'default';
+    filtersStore.set({ selectedCategory: 'all', sortOrder: 'default' });
     products = allProducts;
   }
 
@@ -70,6 +84,9 @@
     await fetchProducts();
     await fetchCategories();
   });
+
+  // Clean up subscription when component unmounts
+  onDestroy(() => unsubscribe());
 </script>
 
 <Header
@@ -91,21 +108,23 @@
     </div>
   </div>
 {/if}
-  
-  {#if loadingProducts}
-    <Skeleton count={8} />
-  {/if}
-  
-  {#if !loadingProducts}
-    <div class="product-grid">
-      {#each products as product}
-        <Link to={`/product/${product.id}`}>
-          <Products {product} />
-        </Link>
+
+{#if loadingProducts}
+  <Skeleton count={8} />
+{/if}
+
+{#if !loadingProducts}
+  <div class="product-grid">
+    {#each products as product}
+      <Link to={`/product/${product.id}`}>
+        <Product {product} /> <!-- Correct component usage -->
+       
+      </Link>
       {/each}
-    </div>
+  </div>
   {/if}
-  
+     
+
     <style>
         
     .controls {
