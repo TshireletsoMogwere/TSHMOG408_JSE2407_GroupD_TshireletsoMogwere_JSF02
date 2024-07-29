@@ -27,9 +27,9 @@
       <h2>{product.title}</h2>
       <img src={product.image} alt={product.title} />
       <p>{product.description}</p>
-      <p>Price: ${product.price.toFixed(2)}</p>
+      <p id="price">Price: ${product.price.toFixed(2)}</p>
       <p>Category: {product.category}</p>
-      <p>Rating: {product.rating.rate} ({product.rating.count} reviews)</p>
+      <button>Rating: {product.rating.rate} ({product.rating.count} reviews)</button>
     </div>
   {:else}
     <p>Product not found</p>
@@ -54,9 +54,16 @@
 
 .product-detail p {
   font-size: large; 
+  font-weight: bold;
   color: black; 
   margin-bottom: 15px; 
 }
+
+#price {
+  font-style: italic;
+  color: blue;
+}
+
 
 img {
     width: 15%; 
